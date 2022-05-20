@@ -4,9 +4,38 @@ const corsMiddleWare = require("cors");
 const authMiddleWare = require("./auth/middleware");
 const authRouter = require("./routers/auth");
 const { PORT } = require("./config/constants");
-
+const Space = require("./models").space;
 // Create an express app
 const app = express();
+const cors = require("cors");
+app.use(cors());
+app.get("/", (req, res, next) => {
+  try {
+    res.send("Hello test point");
+  } catch (e) {
+    console.log(e);
+    next(e);
+  }
+});
+
+app.get("/spaces", async (req, res, next) => {
+  try {
+    const allSpaces = await Space.findAll();
+    res.send(allSpaces);
+  } catch (e) {
+    console.log(e);
+    next(e);
+  }
+});
+// app.get("/spaces", async (req, res, next) => {
+//   try {
+//     const allSpaces = await Space.findAll();
+//     res.send(allSpaces);
+//   } catch (e) {
+//     console.log(e);
+//     next(e);
+//   }
+// });
 
 /**
  * Middlewares
